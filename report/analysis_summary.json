@@ -353,6 +353,138 @@
       "unresolved": 0
     }
   ],
+  "action_plan": {
+    "notice": "以下负责人和时限是分析建议，并非原始工单中的实际分派或 SLA。",
+    "payment_response": [
+      {
+        "workstream": "资金扣款一致性",
+        "topic": "重复或错误扣款",
+        "owner": "支付平台 + 财务",
+        "deadline": "4 小时内止损，24 小时内给出根因",
+        "action": "按支付渠道核对扣款流水、幂等键和退款状态，优先处理重复或错误扣款。",
+        "count": 6,
+        "unresolved_count": 1,
+        "ticket_ids": [
+          "T012",
+          "T022",
+          "T030",
+          "T037",
+          "T046",
+          "T050"
+        ]
+      },
+      {
+        "workstream": "订单状态同步",
+        "topic": "支付成功但订单异常",
+        "owner": "订单平台 + 支付平台",
+        "deadline": "4 小时内核对状态，24 小时内修复或补偿",
+        "action": "核对支付回调、消息重试和订单状态机，补偿已扣款但订单异常的记录。",
+        "count": 6,
+        "unresolved_count": 0,
+        "ticket_ids": [
+          "T008",
+          "T020",
+          "T028",
+          "T032",
+          "T035",
+          "T041"
+        ]
+      },
+      {
+        "workstream": "结算可用性",
+        "topic": "支付页面或结算失败",
+        "owner": "交易前端 + 支付平台",
+        "deadline": "8 小时内定位，48 小时内完成修复验证",
+        "action": "检查结算页错误日志、第三方支付可用性和客户端兼容性。",
+        "count": 3,
+        "unresolved_count": 0,
+        "ticket_ids": [
+          "T016",
+          "T025",
+          "T048"
+        ]
+      }
+    ],
+    "high_priority_backlog": [
+      {
+        "rank": 1,
+        "ticket_id": "T031",
+        "category": "退款退货",
+        "description": "退货快递费我垫付了 说好了退给我 到现在没退",
+        "risk_score": 11,
+        "current_age_hours": 120.0,
+        "owner": "售后退款负责人",
+        "deadline": "2 小时内介入，24 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 2,
+        "ticket_id": "T047",
+        "category": "退款退货",
+        "description": "退了一个星期了 退款还在处理中 你们是不是不想退",
+        "risk_score": 11,
+        "current_age_hours": 96.0,
+        "owner": "售后退款负责人",
+        "deadline": "2 小时内介入，24 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 3,
+        "ticket_id": "T042",
+        "category": "退款退货",
+        "description": "退货运费垫付了28块 你们说要报销的 什么时候给",
+        "risk_score": 11,
+        "current_age_hours": 72.0,
+        "owner": "售后退款负责人",
+        "deadline": "2 小时内介入，24 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 4,
+        "ticket_id": "T019",
+        "category": "物流查询",
+        "description": "包裹被退回了 我没让退啊",
+        "risk_score": 9,
+        "current_age_hours": 36.0,
+        "owner": "物流协同负责人",
+        "deadline": "4 小时内介入，48 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 5,
+        "ticket_id": "T039",
+        "category": "退款退货",
+        "description": "商品还没收到就已经自动确认收货了 我要退款",
+        "risk_score": 9,
+        "current_age_hours": 36.0,
+        "owner": "售后退款负责人",
+        "deadline": "4 小时内介入，48 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 6,
+        "ticket_id": "T036",
+        "category": "退款退货",
+        "description": "七天无理由退货 你们不给退 凭什么",
+        "risk_score": 9,
+        "current_age_hours": 24.0,
+        "owner": "售后退款负责人",
+        "deadline": "4 小时内介入，48 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      },
+      {
+        "rank": 7,
+        "ticket_id": "T046",
+        "category": "支付问题",
+        "description": "又出现重复扣款了 上个月也有过",
+        "risk_score": 9,
+        "current_age_hours": 6.0,
+        "owner": "支付专项负责人",
+        "deadline": "4 小时内介入，48 小时内闭环",
+        "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。"
+      }
+    ]
+  },
   "anomalies": [
     {
       "id": "category-surge-支付问题",

@@ -63,6 +63,27 @@ def test_anomalies_are_traceable_to_rules_and_tickets() -> None:
     assert set(backlog["ticket_ids"]) == {"T019", "T031", "T036", "T039", "T042", "T046", "T047"}
 
 
+def test_action_plan_prioritizes_high_risk_backlog() -> None:
+    result = analyze_tickets(load_tickets(DATA_PATH))
+    plan = result["action_plan"]
+
+    assert [item["workstream"] for item in plan["payment_response"]] == [
+        "资金扣款一致性",
+        "订单状态同步",
+        "结算可用性",
+    ]
+    assert [item["ticket_id"] for item in plan["high_priority_backlog"]] == [
+        "T031",
+        "T047",
+        "T042",
+        "T019",
+        "T039",
+        "T036",
+        "T046",
+    ]
+    assert plan["high_priority_backlog"][0]["owner"] == "售后退款负责人"
+
+
 def test_rejects_missing_fields(tmp_path: Path) -> None:
     invalid_path = tmp_path / "invalid.json"
     invalid_path.write_text(json.dumps([{"ticket_id": "T001"}]), encoding="utf-8")

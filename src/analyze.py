@@ -202,6 +202,72 @@ def _ticket_risks(frame: pd.DataFrame) -> list[dict[str, Any]]:
     return _records(ordered[columns])
 
 
+def _build_action_plan(frame: pd.DataFrame) -> dict[str, Any]:
+    payment_tracks = [
+        {
+            "workstream": "资金扣款一致性",
+            "topic": "重复或错误扣款",
+            "owner": "支付平台 + 财务",
+            "deadline": "4 小时内止损，24 小时内给出根因",
+            "action": "按支付渠道核对扣款流水、幂等键和退款状态，优先处理重复或错误扣款。",
+        },
+        {
+            "workstream": "订单状态同步",
+            "topic": "支付成功但订单异常",
+            "owner": "订单平台 + 支付平台",
+            "deadline": "4 小时内核对状态，24 小时内修复或补偿",
+            "action": "核对支付回调、消息重试和订单状态机，补偿已扣款但订单异常的记录。",
+        },
+        {
+            "workstream": "结算可用性",
+            "topic": "支付页面或结算失败",
+            "owner": "交易前端 + 支付平台",
+            "deadline": "8 小时内定位，48 小时内完成修复验证",
+            "action": "检查结算页错误日志、第三方支付可用性和客户端兼容性。",
+        },
+    ]
+    for track in payment_tracks:
+        matched = frame[(frame["category"] == "支付问题") & (frame["topic"] == track["topic"])]
+        track["count"] = int(len(matched))
+        track["unresolved_count"] = int((~matched["is_resolved"]).sum())
+        track["ticket_ids"] = matched["ticket_id"].tolist()
+
+    backlog = frame[(frame["priority"] == "高") & (~frame["is_resolved"])].copy()
+    backlog = backlog.sort_values(
+        ["risk_score", "resolution_time_hours", "created_at"],
+        ascending=[False, False, True],
+    )
+    backlog_items: list[dict[str, Any]] = []
+    for rank, (_, row) in enumerate(backlog.iterrows(), start=1):
+        if row["category"] == "支付问题":
+            owner = "支付专项负责人"
+        elif row["category"] == "退款退货":
+            owner = "售后退款负责人"
+        elif row["category"] == "物流查询":
+            owner = "物流协同负责人"
+        else:
+            owner = "客服值班主管"
+        backlog_items.append(
+            {
+                "rank": rank,
+                "ticket_id": row["ticket_id"],
+                "category": row["category"],
+                "description": row["description"],
+                "risk_score": int(row["risk_score"]),
+                "current_age_hours": _round(row["resolution_time_hours"]),
+                "owner": owner,
+                "deadline": "2 小时内介入，24 小时内闭环" if row["risk_score"] >= 11 else "4 小时内介入，48 小时内闭环",
+                "next_step": "联系客户同步进展，确认阻塞环节并登记下一次回访时间。",
+            }
+        )
+
+    return {
+        "notice": "以下负责人和时限是分析建议，并非原始工单中的实际分派或 SLA。",
+        "payment_response": payment_tracks,
+        "high_priority_backlog": backlog_items,
+    }
+
+
 def _detect_anomalies(
     frame: pd.DataFrame,
     window: dict[str, Any],
@@ -367,6 +433,7 @@ def analyze_tickets(frame: pd.DataFrame) -> dict[str, Any]:
             }
             for priority in ("高", "中", "低")
         ],
+        "action_plan": _build_action_plan(data),
         "anomalies": anomalies,
         "ticket_risks": _ticket_risks(data),
     }

@@ -25,15 +25,24 @@ COLORS = {
 }
 
 
-def _style_figure(figure: go.Figure, height: int = 340) -> go.Figure:
+def _style_figure(figure: go.Figure, height: int = 360) -> go.Figure:
     figure.update_layout(
         height=height,
-        margin=dict(l=42, r=24, t=58, b=42),
+        margin=dict(l=52, r=28, t=76, b=76),
         paper_bgcolor="white",
         plot_bgcolor="white",
         font=dict(family='"Microsoft YaHei", "PingFang SC", sans-serif', color=COLORS["ink"]),
-        title_font=dict(size=17),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        title=dict(font=dict(size=17), x=0.02, xanchor="left", y=0.96, yanchor="top"),
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=-0.16,
+            xanchor="left",
+            x=0,
+            font=dict(size=11),
+            title_text="",
+            bgcolor="rgba(255,255,255,.88)",
+        ),
         hoverlabel=dict(font_size=13),
     )
     figure.update_xaxes(gridcolor=COLORS["grid"], zeroline=False)
@@ -153,22 +162,49 @@ def _build_figures(result: dict[str, Any]) -> list[str]:
     )
     satisfaction_figure.update_coloraxes(showscale=False)
 
-    relation_figure = px.scatter(
-        tickets,
-        x="resolution_time_hours",
-        y="satisfaction",
-        color="category",
-        symbol="is_resolved",
-        hover_data=["ticket_id", "priority", "description"],
+    relation_figure = go.Figure()
+    palette = px.colors.qualitative.Safe
+    for index, (category, category_tickets) in enumerate(tickets.groupby("category", sort=True)):
+        relation_figure.add_trace(
+            go.Scatter(
+                x=category_tickets["resolution_time_hours"],
+                y=category_tickets["satisfaction"],
+                mode="markers",
+                name=category,
+                marker=dict(
+                    color=palette[index % len(palette)],
+                    size=10,
+                    opacity=0.82,
+                    symbol=["circle" if resolved else "diamond-open" for resolved in category_tickets["is_resolved"]],
+                    line=dict(width=1.5),
+                ),
+                customdata=category_tickets[["ticket_id", "priority", "description", "is_resolved"]],
+                hovertemplate=(
+                    "<b>%{customdata[0]}</b> · " + category + "<br>"
+                    "处理时长：%{x} 小时<br>满意度：%{y}<br>"
+                    "优先级：%{customdata[1]}<br>已解决：%{customdata[3]}<br>"
+                    "%{customdata[2]}<extra></extra>"
+                ),
+            )
+        )
+    relation_figure.update_layout(
         title="处理时长与满意度（共现关系）",
-        labels={
-            "resolution_time_hours": "处理时长（小时）",
-            "satisfaction": "满意度",
-            "category": "类别",
-            "is_resolved": "已解决",
-        },
+        xaxis_title="处理时长（小时）",
+        yaxis_title="满意度",
+        annotations=[
+            dict(
+                text="● 已解决　◇ 未解决",
+                x=1,
+                y=1.08,
+                xref="paper",
+                yref="paper",
+                xanchor="right",
+                showarrow=False,
+                font=dict(size=11, color=COLORS["muted"]),
+            )
+        ],
     )
-    relation_figure.update_traces(marker=dict(size=10, opacity=0.8))
+    relation_figure.update_yaxes(dtick=1, range=[0.7, 5.35])
 
     channel = pd.DataFrame(result["channel_stats"]).sort_values("median_resolution_hours", ascending=False)
     channel_figure = px.bar(
@@ -199,7 +235,11 @@ def _build_figures(result: dict[str, Any]) -> list[str]:
         relation_figure,
         channel_figure,
     ]
-    return [_chart_html(_style_figure(figure), include_js=index == 0) for index, figure in enumerate(figures)]
+    chart_html: list[str] = []
+    for index, figure in enumerate(figures):
+        height = 430 if index in {5, 7} else 360
+        chart_html.append(_chart_html(_style_figure(figure, height), include_js=index == 0))
+    return chart_html
 
 
 def _kpi(label: str, value: str, note: str) -> str:
@@ -225,6 +265,51 @@ def _anomaly_card(item: dict[str, Any]) -> str:
       <p><strong>建议动作：</strong>{escape(item["action"])}</p>
       <div class="tickets">{ticket_tags}</div>
     </article>
+    """
+
+
+def _action_plan_html(action_plan: dict[str, Any]) -> str:
+    workstreams = "".join(
+        f"""
+        <article class="workstream">
+          <div class="workstream-title"><span>{index}</span><h3>{escape(item['workstream'])}</h3></div>
+          <p class="metric">{item['count']} 条相关工单 · {item['unresolved_count']} 条未解决</p>
+          <p><strong>负责团队：</strong>{escape(item['owner'])}</p>
+          <p><strong>建议时限：</strong>{escape(item['deadline'])}</p>
+          <p>{escape(item['action'])}</p>
+          <div class="tickets">{''.join(f'<code>{escape(ticket_id)}</code>' for ticket_id in item['ticket_ids'])}</div>
+        </article>
+        """
+        for index, item in enumerate(action_plan["payment_response"], start=1)
+    )
+    backlog_rows = "".join(
+        f"""
+        <tr>
+          <td><strong>#{item['rank']}</strong></td>
+          <td><code>{escape(item['ticket_id'])}</code><small>{escape(item['category'])}</small></td>
+          <td>{escape(item['description'])}</td>
+          <td><strong>{item['risk_score']}</strong><small>{item['current_age_hours']}h</small></td>
+          <td>{escape(item['owner'])}<small>{escape(item['deadline'])}</small></td>
+        </tr>
+        """
+        for item in action_plan["high_priority_backlog"]
+    )
+    return f"""
+      <div class="subhead">
+        <h3>支付问题：三路并行处置</h3>
+        <p>先止损和补偿，再定位系统根因。</p>
+      </div>
+      <div class="workstreams">{workstreams}</div>
+      <div class="subhead backlog-head">
+        <h3>7 条高优先级未解决工单：建议跟进顺序</h3>
+        <p>{escape(action_plan['notice'])}</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>顺序</th><th>工单</th><th>问题</th><th>风险分</th><th>建议负责人 / 时限</th></tr></thead>
+          <tbody>{backlog_rows}</tbody>
+        </table>
+      </div>
     """
 
 
@@ -254,6 +339,7 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
         ]
     )
     alerts = "".join(_anomaly_card(item) for item in result["anomalies"])
+    action_plan = _action_plan_html(result["action_plan"])
     limitations = "".join(f"<li>{escape(item)}</li>" for item in result["metadata"]["limitations"])
     generated_at = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")
 
@@ -294,8 +380,9 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
     .section-head {{ display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 14px; }}
     h2 {{ margin: 0; font-size: 25px; }}
     .section-head p {{ max-width: 680px; margin: 0; color: var(--muted); line-height: 1.6; }}
-    .alerts {{ display: grid; gap: 12px; }}
+    .alerts {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }}
     .alert {{ padding: 20px 22px; border-left-width: 5px; }}
+    .alert.critical {{ grid-column: 1 / -1; }}
     .alert.critical {{ border-left-color: var(--red); }}
     .alert.warning {{ border-left-color: var(--orange); }}
     .alert.info {{ border-left-color: var(--cyan); }}
@@ -308,19 +395,38 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
     .info .level {{ color: #155e75; background: #cffafe; }}
     .tickets {{ display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }}
     code {{ padding: 4px 7px; border-radius: 6px; color: #334155; background: #f1f5f9; }}
+    .subhead {{ display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 24px 0 12px; }}
+    .subhead h3, .subhead p {{ margin: 0; }}
+    .subhead p {{ color: var(--muted); font-size: 13px; }}
+    .workstreams {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }}
+    .workstream {{ padding: 20px; background: white; border: 1px solid var(--line); border-radius: 16px; }}
+    .workstream-title {{ display: flex; align-items: center; gap: 10px; }}
+    .workstream-title span {{ display: grid; place-items: center; width: 28px; height: 28px; color: white; background: var(--blue); border-radius: 9px; font-weight: 800; }}
+    .workstream h3 {{ margin: 0; font-size: 17px; }}
+    .workstream p {{ margin: 9px 0 0; color: #334155; font-size: 13px; line-height: 1.55; }}
+    .workstream .metric {{ color: var(--blue); font-weight: 800; }}
+    .backlog-head {{ margin-top: 30px; }}
+    .table-wrap {{ overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 16px; }}
+    table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
+    th {{ color: var(--muted); background: #f8fafc; text-align: left; }}
+    th, td {{ padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }}
+    tbody tr:last-child td {{ border-bottom: 0; }}
+    td small {{ display: block; margin-top: 6px; color: var(--muted); line-height: 1.5; }}
     .grid-2 {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }}
-    .panel {{ padding: 8px; overflow: hidden; }}
+    .experience-grid {{ display: grid; grid-template-columns: minmax(320px, .72fr) minmax(0, 1.45fr); gap: 16px; }}
+    .panel {{ min-width: 0; padding: 12px; overflow: hidden; }}
     .method {{ padding: 24px 28px; line-height: 1.75; }}
     .method-grid {{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }}
     .method h3 {{ margin-top: 0; }}
     footer {{ margin-top: 28px; color: var(--muted); font-size: 13px; text-align: right; }}
-    @media (max-width: 980px) {{
+    @media (max-width: 1080px) {{
       .kpi-grid {{ grid-template-columns: repeat(2, 1fr); }}
-      .grid-2, .method-grid {{ grid-template-columns: 1fr; }}
+      .grid-2, .experience-grid, .method-grid, .workstreams {{ grid-template-columns: 1fr; }}
     }}
     @media (max-width: 560px) {{
       main {{ width: min(100% - 24px, 1240px); }}
       .kpi-grid {{ grid-template-columns: 1fr; }}
+      .alerts {{ grid-template-columns: 1fr; }}
       .section-head, .alert-head {{ align-items: flex-start; flex-direction: column; }}
     }}
   </style>
@@ -344,8 +450,16 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
 
     <section>
       <div class="section-head">
+        <h2>立即行动方案</h2>
+        <p>把异常信号转换为可分派任务；建议时限用于内部推进，不代表正式 SLA。</p>
+      </div>
+      {action_plan}
+    </section>
+
+    <section>
+      <div class="section-head">
         <h2>趋势变化</h2>
-        <p>前窗为 {window['baseline_start']} 至 {window['baseline_end']}，后窗为 {window['recent_start']} 至 {window['recent_end']}；使用日均量消除窗口天数差异。</p>
+        <p>前窗为 {window['baseline_start'].split('T')[0]} 至 {window['baseline_end'].split('T')[0]}，后窗为 {window['recent_start'].split('T')[0]} 至 {window['recent_end'].split('T')[0]}；使用日均量消除窗口天数差异。</p>
       </div>
       <div class="grid-2"><div class="panel">{charts[0]}</div><div class="panel">{charts[1]}</div></div>
     </section>
@@ -372,7 +486,7 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
         <h2>客户体验</h2>
         <p>满意度与处理时长仅表示样本内共现，不作为因果关系判断。</p>
       </div>
-      <div class="grid-2"><div class="panel">{charts[6]}</div><div class="panel">{charts[7]}</div></div>
+      <div class="experience-grid"><div class="panel">{charts[6]}</div><div class="panel">{charts[7]}</div></div>
     </section>
 
     <section class="panel method">
@@ -391,5 +505,5 @@ def render_dashboard(result: dict[str, Any], output_path: str | Path) -> Path:
   </main>
 </body>
 </html>"""
-    output.write_text(html, encoding="utf-8")
+    output.write_text("\n".join(line.rstrip() for line in html.splitlines()) + "\n", encoding="utf-8")
     return output

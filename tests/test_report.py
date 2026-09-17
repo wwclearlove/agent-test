@@ -26,9 +26,14 @@ def test_dashboard_is_self_contained_and_has_required_sections(tmp_path: Path) -
     assert output.exists()
     assert "<!doctype html>" in html
     assert "主管今日应关注" in html
+    assert "立即行动方案" in html
+    assert "支付问题：三路并行处置" in html
+    assert "7 条高优先级未解决工单：建议跟进顺序" in html
     assert "趋势变化" in html
     assert "问题结构" in html
     assert "客户体验" in html
+    assert "● 已解决　◇ 未解决" in html
+    assert "前窗为 2024-06-01 至 2024-06-05" in html
     assert "plotly.js" in html
     assert re.search(r'<script[^>]+src=["\']https?://', html, flags=re.IGNORECASE) is None
     output.unlink()
