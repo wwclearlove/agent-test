@@ -1,0 +1,1220 @@
+{
+  "metadata": {
+    "title": "客服工单趋势与异常分析",
+    "method": "确定性统计规则与关键词主题归并",
+    "limitations": [
+      "样本仅覆盖 11 天和 50 条工单，趋势仅表示样本内变化。",
+      "48 小时是分析观察阈值，不代表企业正式 SLA。",
+      "关联关系表示共现，不代表因果。"
+    ]
+  },
+  "overview": {
+    "ticket_count": 50,
+    "date_start": "2024-06-01",
+    "date_end": "2024-06-11",
+    "resolved_count": 42,
+    "unresolved_count": 8,
+    "resolved_rate_pct": 84.0,
+    "high_priority_count": 31,
+    "avg_satisfaction": 2.36,
+    "low_satisfaction_rate_pct": 54.0,
+    "avg_resolution_hours": 19.69,
+    "median_resolution_hours": 7.0,
+    "p90_resolution_hours": 50.4
+  },
+  "window": {
+    "baseline_start": "2024-06-01T00:00:00",
+    "baseline_end": "2024-06-05T00:00:00",
+    "baseline_days": 5,
+    "recent_start": "2024-06-06T00:00:00",
+    "recent_end": "2024-06-11T00:00:00",
+    "recent_days": 6
+  },
+  "daily_trend": [
+    {
+      "date": "2024-06-01",
+      "count": 3
+    },
+    {
+      "date": "2024-06-02",
+      "count": 3
+    },
+    {
+      "date": "2024-06-03",
+      "count": 4
+    },
+    {
+      "date": "2024-06-04",
+      "count": 5
+    },
+    {
+      "date": "2024-06-05",
+      "count": 4
+    },
+    {
+      "date": "2024-06-06",
+      "count": 5
+    },
+    {
+      "date": "2024-06-07",
+      "count": 5
+    },
+    {
+      "date": "2024-06-08",
+      "count": 5
+    },
+    {
+      "date": "2024-06-09",
+      "count": 5
+    },
+    {
+      "date": "2024-06-10",
+      "count": 6
+    },
+    {
+      "date": "2024-06-11",
+      "count": 5
+    }
+  ],
+  "window_comparison": [
+    {
+      "category": "商品咨询",
+      "baseline_count": 3,
+      "recent_count": 2,
+      "baseline_daily_avg": 0.6,
+      "recent_daily_avg": 0.33,
+      "daily_avg_growth_pct": -44.4,
+      "is_surge": false
+    },
+    {
+      "category": "投诉",
+      "baseline_count": 1,
+      "recent_count": 3,
+      "baseline_daily_avg": 0.2,
+      "recent_daily_avg": 0.5,
+      "daily_avg_growth_pct": 150.0,
+      "is_surge": false
+    },
+    {
+      "category": "支付问题",
+      "baseline_count": 3,
+      "recent_count": 13,
+      "baseline_daily_avg": 0.6,
+      "recent_daily_avg": 2.17,
+      "daily_avg_growth_pct": 261.1,
+      "is_surge": true
+    },
+    {
+      "category": "物流查询",
+      "baseline_count": 4,
+      "recent_count": 4,
+      "baseline_daily_avg": 0.8,
+      "recent_daily_avg": 0.67,
+      "daily_avg_growth_pct": -16.7,
+      "is_surge": false
+    },
+    {
+      "category": "账号问题",
+      "baseline_count": 2,
+      "recent_count": 2,
+      "baseline_daily_avg": 0.4,
+      "recent_daily_avg": 0.33,
+      "daily_avg_growth_pct": -16.7,
+      "is_surge": false
+    },
+    {
+      "category": "退款退货",
+      "baseline_count": 6,
+      "recent_count": 7,
+      "baseline_daily_avg": 1.2,
+      "recent_daily_avg": 1.17,
+      "daily_avg_growth_pct": -2.8,
+      "is_surge": false
+    }
+  ],
+  "category_stats": [
+    {
+      "category": "支付问题",
+      "count": 16,
+      "share_pct": 32.0,
+      "resolved_rate_pct": 93.8,
+      "low_satisfaction_rate_pct": 56.2,
+      "avg_satisfaction": 2.25,
+      "avg_resolution_hours": 5.25,
+      "median_resolution_hours": 5.5,
+      "p90_resolution_hours": 8.0
+    },
+    {
+      "category": "退款退货",
+      "count": 13,
+      "share_pct": 26.0,
+      "resolved_rate_pct": 61.5,
+      "low_satisfaction_rate_pct": 61.5,
+      "avg_satisfaction": 2.0,
+      "avg_resolution_hours": 45.23,
+      "median_resolution_hours": 24.0,
+      "p90_resolution_hours": 96.0
+    },
+    {
+      "category": "物流查询",
+      "count": 8,
+      "share_pct": 16.0,
+      "resolved_rate_pct": 75.0,
+      "low_satisfaction_rate_pct": 75.0,
+      "avg_satisfaction": 2.12,
+      "avg_resolution_hours": 24.5,
+      "median_resolution_hours": 24.0,
+      "p90_resolution_hours": 48.0
+    },
+    {
+      "category": "商品咨询",
+      "count": 5,
+      "share_pct": 10.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 0.0,
+      "avg_satisfaction": 4.2,
+      "avg_resolution_hours": 0.9,
+      "median_resolution_hours": 1.0,
+      "p90_resolution_hours": 1.0
+    },
+    {
+      "category": "投诉",
+      "count": 4,
+      "share_pct": 8.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 100.0,
+      "avg_satisfaction": 1.0,
+      "avg_resolution_hours": 23.0,
+      "median_resolution_hours": 18.0,
+      "p90_resolution_hours": 40.8
+    },
+    {
+      "category": "账号问题",
+      "count": 4,
+      "share_pct": 8.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 0.0,
+      "avg_satisfaction": 3.5,
+      "avg_resolution_hours": 5.0,
+      "median_resolution_hours": 3.0,
+      "p90_resolution_hours": 9.6
+    }
+  ],
+  "topic_stats": [
+    {
+      "topic": "其他",
+      "count": 21,
+      "share_pct": 42.0,
+      "resolved_rate_pct": 85.7,
+      "low_satisfaction_rate_pct": 38.1,
+      "avg_satisfaction": 2.76,
+      "avg_resolution_hours": 15.69,
+      "median_resolution_hours": 12.0,
+      "p90_resolution_hours": 36.0
+    },
+    {
+      "topic": "支付成功但订单异常",
+      "count": 6,
+      "share_pct": 12.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 66.7,
+      "avg_satisfaction": 2.33,
+      "avg_resolution_hours": 5.83,
+      "median_resolution_hours": 4.5,
+      "p90_resolution_hours": 10.0
+    },
+    {
+      "topic": "重复或错误扣款",
+      "count": 6,
+      "share_pct": 12.0,
+      "resolved_rate_pct": 83.3,
+      "low_satisfaction_rate_pct": 83.3,
+      "avg_satisfaction": 1.67,
+      "avg_resolution_hours": 6.67,
+      "median_resolution_hours": 6.0,
+      "p90_resolution_hours": 8.0
+    },
+    {
+      "topic": "物流停滞或异常",
+      "count": 5,
+      "share_pct": 10.0,
+      "resolved_rate_pct": 80.0,
+      "low_satisfaction_rate_pct": 60.0,
+      "avg_satisfaction": 2.4,
+      "avg_resolution_hours": 17.6,
+      "median_resolution_hours": 8.0,
+      "p90_resolution_hours": 38.4
+    },
+    {
+      "topic": "退货运费报销",
+      "count": 4,
+      "share_pct": 8.0,
+      "resolved_rate_pct": 50.0,
+      "low_satisfaction_rate_pct": 50.0,
+      "avg_satisfaction": 2.0,
+      "avg_resolution_hours": 52.0,
+      "median_resolution_hours": 42.0,
+      "p90_resolution_hours": 105.6
+    },
+    {
+      "topic": "支付页面或结算失败",
+      "count": 3,
+      "share_pct": 6.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 0.0,
+      "avg_satisfaction": 3.0,
+      "avg_resolution_hours": 2.0,
+      "median_resolution_hours": 1.0,
+      "p90_resolution_hours": 3.4
+    },
+    {
+      "topic": "退款审核或到账延迟",
+      "count": 3,
+      "share_pct": 6.0,
+      "resolved_rate_pct": 66.7,
+      "low_satisfaction_rate_pct": 100.0,
+      "avg_satisfaction": 1.33,
+      "avg_resolution_hours": 88.0,
+      "median_resolution_hours": 96.0,
+      "p90_resolution_hours": 96.0
+    },
+    {
+      "topic": "客服机器人无效回复",
+      "count": 2,
+      "share_pct": 4.0,
+      "resolved_rate_pct": 100.0,
+      "low_satisfaction_rate_pct": 100.0,
+      "avg_satisfaction": 1.5,
+      "avg_resolution_hours": 7.0,
+      "median_resolution_hours": 7.0,
+      "p90_resolution_hours": 7.8
+    }
+  ],
+  "channel_stats": [
+    {
+      "channel": "在线",
+      "count": 34,
+      "share_pct": 68.0,
+      "resolved_rate_pct": 88.2,
+      "low_satisfaction_rate_pct": 44.1,
+      "avg_satisfaction": 2.56,
+      "avg_resolution_hours": 14.07,
+      "median_resolution_hours": 4.0,
+      "p90_resolution_hours": 48.0
+    },
+    {
+      "channel": "电话",
+      "count": 16,
+      "share_pct": 32.0,
+      "resolved_rate_pct": 75.0,
+      "low_satisfaction_rate_pct": 75.0,
+      "avg_satisfaction": 1.94,
+      "avg_resolution_hours": 31.62,
+      "median_resolution_hours": 24.0,
+      "p90_resolution_hours": 72.0
+    }
+  ],
+  "satisfaction_distribution": [
+    {
+      "score": 1,
+      "count": 14
+    },
+    {
+      "score": 2,
+      "count": 13
+    },
+    {
+      "score": 3,
+      "count": 15
+    },
+    {
+      "score": 4,
+      "count": 7
+    },
+    {
+      "score": 5,
+      "count": 1
+    }
+  ],
+  "priority_resolution": [
+    {
+      "priority": "高",
+      "resolved": 24,
+      "unresolved": 7
+    },
+    {
+      "priority": "中",
+      "resolved": 12,
+      "unresolved": 1
+    },
+    {
+      "priority": "低",
+      "resolved": 6,
+      "unresolved": 0
+    }
+  ],
+  "anomalies": [
+    {
+      "id": "category-surge-支付问题",
+      "level": "立即处理",
+      "title": "支付问题近期日均量明显上升",
+      "evidence": "前窗 3 条/5 天，后窗 13 条/6 天，日均量增长 261.1%。",
+      "ticket_ids": [
+        "T020",
+        "T022",
+        "T025",
+        "T028",
+        "T030",
+        "T032",
+        "T035",
+        "T037",
+        "T040",
+        "T041",
+        "T046",
+        "T048",
+        "T050"
+      ],
+      "action": "检查近期产品或流程变更，安排专项归因并评估客服承接能力。"
+    },
+    {
+      "id": "high-priority-backlog",
+      "level": "立即处理",
+      "title": "高优先级未解决工单积压",
+      "evidence": "共有 7 条高优先级工单尚未解决。",
+      "ticket_ids": [
+        "T019",
+        "T031",
+        "T036",
+        "T039",
+        "T042",
+        "T046",
+        "T047"
+      ],
+      "action": "逐单指定负责人和完成时限，优先处理风险分最高的工单。"
+    },
+    {
+      "id": "long-resolution-tail",
+      "level": "立即处理",
+      "title": "处理时长长尾明显",
+      "evidence": "8 条工单处理时长达到 48 小时，其中 4 条仍未解决。",
+      "ticket_ids": [
+        "T001",
+        "T006",
+        "T007",
+        "T024",
+        "T031",
+        "T033",
+        "T042",
+        "T047"
+      ],
+      "action": "复盘跨团队等待、退款审核和物流协同环节。"
+    },
+    {
+      "id": "experience-投诉",
+      "level": "持续关注",
+      "title": "投诉低满意度集中",
+      "evidence": "4 条工单中低分率为 100.0%，平均满意度 1.0 分。",
+      "ticket_ids": [
+        "T010",
+        "T024",
+        "T034",
+        "T044"
+      ],
+      "action": "抽查低分原文，区分产品故障、政策争议和服务响应问题。"
+    },
+    {
+      "id": "experience-支付问题",
+      "level": "持续关注",
+      "title": "支付问题低满意度集中",
+      "evidence": "16 条工单中低分率为 56.2%，平均满意度 2.25 分。",
+      "ticket_ids": [
+        "T012",
+        "T020",
+        "T022",
+        "T030",
+        "T032",
+        "T035",
+        "T041",
+        "T046",
+        "T050"
+      ],
+      "action": "抽查低分原文，区分产品故障、政策争议和服务响应问题。"
+    },
+    {
+      "id": "experience-物流查询",
+      "level": "持续关注",
+      "title": "物流查询低满意度集中",
+      "evidence": "8 条工单中低分率为 75.0%，平均满意度 2.12 分。",
+      "ticket_ids": [
+        "T006",
+        "T013",
+        "T019",
+        "T027",
+        "T033",
+        "T049"
+      ],
+      "action": "抽查低分原文，区分产品故障、政策争议和服务响应问题。"
+    },
+    {
+      "id": "experience-退款退货",
+      "level": "持续关注",
+      "title": "退款退货低满意度集中",
+      "evidence": "13 条工单中低分率为 61.5%，平均满意度 2.0 分。",
+      "ticket_ids": [
+        "T001",
+        "T007",
+        "T026",
+        "T031",
+        "T036",
+        "T039",
+        "T042",
+        "T047"
+      ],
+      "action": "抽查低分原文，区分产品故障、政策争议和服务响应问题。"
+    },
+    {
+      "id": "repeated-topic-客服机器人无效回复",
+      "level": "持续关注",
+      "title": "“客服机器人无效回复”重复出现",
+      "evidence": "共 2 条，未解决 0 条，低满意度 2 条，最近 3 天 1 条。",
+      "ticket_ids": [
+        "T026",
+        "T044"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-支付成功但订单异常",
+      "level": "持续关注",
+      "title": "“支付成功但订单异常”重复出现",
+      "evidence": "共 6 条，未解决 0 条，低满意度 4 条，最近 3 天 2 条。",
+      "ticket_ids": [
+        "T008",
+        "T020",
+        "T028",
+        "T032",
+        "T035",
+        "T041"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-物流停滞或异常",
+      "level": "持续关注",
+      "title": "“物流停滞或异常”重复出现",
+      "evidence": "共 5 条，未解决 1 条，低满意度 3 条，最近 3 天 1 条。",
+      "ticket_ids": [
+        "T002",
+        "T013",
+        "T027",
+        "T033",
+        "T043"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-退款审核或到账延迟",
+      "level": "持续关注",
+      "title": "“退款审核或到账延迟”重复出现",
+      "evidence": "共 3 条，未解决 1 条，低满意度 3 条，最近 3 天 1 条。",
+      "ticket_ids": [
+        "T001",
+        "T007",
+        "T047"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-退货运费报销",
+      "level": "持续关注",
+      "title": "“退货运费报销”重复出现",
+      "evidence": "共 4 条，未解决 2 条，低满意度 2 条，最近 3 天 1 条。",
+      "ticket_ids": [
+        "T011",
+        "T021",
+        "T031",
+        "T042"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-重复或错误扣款",
+      "level": "持续关注",
+      "title": "“重复或错误扣款”重复出现",
+      "evidence": "共 6 条，未解决 1 条，低满意度 5 条，最近 3 天 3 条。",
+      "ticket_ids": [
+        "T012",
+        "T022",
+        "T030",
+        "T037",
+        "T046",
+        "T050"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    },
+    {
+      "id": "repeated-topic-支付页面或结算失败",
+      "level": "信息提示",
+      "title": "“支付页面或结算失败”重复出现",
+      "evidence": "共 3 条，未解决 0 条，低满意度 0 条，最近 3 天 1 条。",
+      "ticket_ids": [
+        "T016",
+        "T025",
+        "T048"
+      ],
+      "action": "合并排查共同根因，避免逐单处理掩盖系统性问题。"
+    }
+  ],
+  "ticket_risks": [
+    {
+      "ticket_id": "T031",
+      "created_at": "2024-06-08T10:00:00.000",
+      "category": "退款退货",
+      "topic": "退货运费报销",
+      "description": "退货快递费我垫付了 说好了退给我 到现在没退",
+      "priority": "高",
+      "resolution_time_hours": 120.0,
+      "satisfaction": 1,
+      "channel": "电话",
+      "is_resolved": false,
+      "risk_score": 11
+    },
+    {
+      "ticket_id": "T047",
+      "created_at": "2024-06-11T10:30:00.000",
+      "category": "退款退货",
+      "topic": "退款审核或到账延迟",
+      "description": "退了一个星期了 退款还在处理中 你们是不是不想退",
+      "priority": "高",
+      "resolution_time_hours": 96.0,
+      "satisfaction": 1,
+      "channel": "电话",
+      "is_resolved": false,
+      "risk_score": 11
+    },
+    {
+      "ticket_id": "T042",
+      "created_at": "2024-06-10T11:20:00.000",
+      "category": "退款退货",
+      "topic": "退货运费报销",
+      "description": "退货运费垫付了28块 你们说要报销的 什么时候给",
+      "priority": "高",
+      "resolution_time_hours": 72.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": false,
+      "risk_score": 11
+    },
+    {
+      "ticket_id": "T039",
+      "created_at": "2024-06-09T15:45:00.000",
+      "category": "退款退货",
+      "topic": "其他",
+      "description": "商品还没收到就已经自动确认收货了 我要退款",
+      "priority": "高",
+      "resolution_time_hours": 36.0,
+      "satisfaction": 1,
+      "channel": "电话",
+      "is_resolved": false,
+      "risk_score": 9
+    },
+    {
+      "ticket_id": "T019",
+      "created_at": "2024-06-05T15:45:00.000",
+      "category": "物流查询",
+      "topic": "其他",
+      "description": "包裹被退回了 我没让退啊",
+      "priority": "高",
+      "resolution_time_hours": 36.0,
+      "satisfaction": 1,
+      "channel": "电话",
+      "is_resolved": false,
+      "risk_score": 9
+    },
+    {
+      "ticket_id": "T036",
+      "created_at": "2024-06-09T10:45:00.000",
+      "category": "退款退货",
+      "topic": "其他",
+      "description": "七天无理由退货 你们不给退 凭什么",
+      "priority": "高",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": false,
+      "risk_score": 9
+    },
+    {
+      "ticket_id": "T046",
+      "created_at": "2024-06-11T09:15:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "又出现重复扣款了 上个月也有过",
+      "priority": "高",
+      "resolution_time_hours": 6.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": false,
+      "risk_score": 9
+    },
+    {
+      "ticket_id": "T033",
+      "created_at": "2024-06-08T13:45:00.000",
+      "category": "物流查询",
+      "topic": "物流停滞或异常",
+      "description": "快递显示异常 联系快递员也不接电话",
+      "priority": "中",
+      "resolution_time_hours": 48.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": false,
+      "risk_score": 9
+    },
+    {
+      "ticket_id": "T007",
+      "created_at": "2024-06-03T09:00:00.000",
+      "category": "退款退货",
+      "topic": "退款审核或到账延迟",
+      "description": "退货寄回去三天了钱还没退",
+      "priority": "高",
+      "resolution_time_hours": 96.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 7
+    },
+    {
+      "ticket_id": "T001",
+      "created_at": "2024-06-01T09:15:00.000",
+      "category": "退款退货",
+      "topic": "退款审核或到账延迟",
+      "description": "退货申请提交一周了还在审核中",
+      "priority": "高",
+      "resolution_time_hours": 72.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 7
+    },
+    {
+      "ticket_id": "T024",
+      "created_at": "2024-06-06T16:00:00.000",
+      "category": "投诉",
+      "topic": "其他",
+      "description": "收到的商品是破损的 你们不检查就发货吗",
+      "priority": "高",
+      "resolution_time_hours": 48.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 7
+    },
+    {
+      "ticket_id": "T006",
+      "created_at": "2024-06-02T15:30:00.000",
+      "category": "物流查询",
+      "topic": "其他",
+      "description": "显示签收但我根本没收到",
+      "priority": "高",
+      "resolution_time_hours": 48.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 7
+    },
+    {
+      "ticket_id": "T049",
+      "created_at": "2024-06-11T14:20:00.000",
+      "category": "物流查询",
+      "topic": "其他",
+      "description": "改了收货地址 但快递还是往旧地址送",
+      "priority": "高",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T027",
+      "created_at": "2024-06-07T12:45:00.000",
+      "category": "物流查询",
+      "topic": "物流停滞或异常",
+      "description": "快递信息已经4天没更新了",
+      "priority": "高",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T010",
+      "created_at": "2024-06-03T16:20:00.000",
+      "category": "投诉",
+      "topic": "其他",
+      "description": "客服态度很差 问了三遍都不回答",
+      "priority": "高",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 1,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T041",
+      "created_at": "2024-06-10T09:45:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "微信扣了钱但订单取消了 钱什么时候退",
+      "priority": "高",
+      "resolution_time_hours": 12.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T034",
+      "created_at": "2024-06-08T15:20:00.000",
+      "category": "投诉",
+      "topic": "其他",
+      "description": "等了40分钟才有客服接 你们人手不够就别开在线客服",
+      "priority": "高",
+      "resolution_time_hours": 12.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T050",
+      "created_at": "2024-06-11T15:45:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "订单金额是199 扣了我299 多扣了100块",
+      "priority": "高",
+      "resolution_time_hours": 8.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T035",
+      "created_at": "2024-06-09T09:30:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "系统显示支付成功 但仓库说没收到订单 发不了货",
+      "priority": "高",
+      "resolution_time_hours": 8.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T022",
+      "created_at": "2024-06-06T11:30:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "重复扣款 请帮我退回来",
+      "priority": "高",
+      "resolution_time_hours": 8.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T030",
+      "created_at": "2024-06-08T08:45:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "下了两个订单 只想付一个 结果两个都扣钱了",
+      "priority": "高",
+      "resolution_time_hours": 6.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T012",
+      "created_at": "2024-06-04T09:45:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "微信支付扣了两次钱 订单只有一个",
+      "priority": "高",
+      "resolution_time_hours": 6.0,
+      "satisfaction": 2,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T020",
+      "created_at": "2024-06-06T08:20:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "信用卡支付成功了但订单没生成",
+      "priority": "高",
+      "resolution_time_hours": 5.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T032",
+      "created_at": "2024-06-08T11:30:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "银行卡已经扣款了但订单没成功",
+      "priority": "高",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 5
+    },
+    {
+      "ticket_id": "T029",
+      "created_at": "2024-06-07T16:15:00.000",
+      "category": "账号问题",
+      "topic": "其他",
+      "description": "账号突然被冻结了 我什么都没做",
+      "priority": "高",
+      "resolution_time_hours": 12.0,
+      "satisfaction": 3,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T037",
+      "created_at": "2024-06-09T12:15:00.000",
+      "category": "支付问题",
+      "topic": "重复或错误扣款",
+      "description": "用花呗分了3期 但扣款金额不对",
+      "priority": "高",
+      "resolution_time_hours": 6.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T045",
+      "created_at": "2024-06-10T16:00:00.000",
+      "category": "账号问题",
+      "topic": "其他",
+      "description": "别人用我的账号下了一单 不是我操作的",
+      "priority": "高",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 3,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T016",
+      "created_at": "2024-06-05T09:10:00.000",
+      "category": "支付问题",
+      "topic": "支付页面或结算失败",
+      "description": "用花呗支付提示失败 但余额够啊",
+      "priority": "高",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T028",
+      "created_at": "2024-06-07T14:30:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "用支付宝付的钱 显示扣款成功 但订单还是待支付",
+      "priority": "高",
+      "resolution_time_hours": 3.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T008",
+      "created_at": "2024-06-03T10:15:00.000",
+      "category": "支付问题",
+      "topic": "支付成功但订单异常",
+      "description": "付款成功但订单显示未支付",
+      "priority": "高",
+      "resolution_time_hours": 3.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T005",
+      "created_at": "2024-06-02T11:00:00.000",
+      "category": "账号问题",
+      "topic": "其他",
+      "description": "登录后一直提示验证码错误进不去",
+      "priority": "高",
+      "resolution_time_hours": 2.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T025",
+      "created_at": "2024-06-07T09:00:00.000",
+      "category": "支付问题",
+      "topic": "支付页面或结算失败",
+      "description": "付款页面一直转圈 付不了款",
+      "priority": "高",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T044",
+      "created_at": "2024-06-10T14:30:00.000",
+      "category": "投诉",
+      "topic": "客服机器人无效回复",
+      "description": "机器人一直回复同样的话 根本解决不了问题 浪费我时间",
+      "priority": "中",
+      "resolution_time_hours": 8.0,
+      "satisfaction": 1,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T013",
+      "created_at": "2024-06-04T11:30:00.000",
+      "category": "物流查询",
+      "topic": "物流停滞或异常",
+      "description": "下单五天了还没发货",
+      "priority": "中",
+      "resolution_time_hours": 8.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T026",
+      "created_at": "2024-06-07T10:20:00.000",
+      "category": "退款退货",
+      "topic": "客服机器人无效回复",
+      "description": "我要退款 客服机器人一直让我重新描述问题",
+      "priority": "中",
+      "resolution_time_hours": 6.0,
+      "satisfaction": 2,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 3
+    },
+    {
+      "ticket_id": "T017",
+      "created_at": "2024-06-05T10:30:00.000",
+      "category": "退款退货",
+      "topic": "其他",
+      "description": "我要换尺码 不是退货 是换货",
+      "priority": "中",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 3,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T004",
+      "created_at": "2024-06-02T08:45:00.000",
+      "category": "退款退货",
+      "topic": "其他",
+      "description": "收到的衣服和图片差太多了要退款",
+      "priority": "中",
+      "resolution_time_hours": 24.0,
+      "satisfaction": 3,
+      "channel": "电话",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T011",
+      "created_at": "2024-06-04T08:30:00.000",
+      "category": "退款退货",
+      "topic": "退货运费报销",
+      "description": "质量问题退货运费应该你们出吧",
+      "priority": "中",
+      "resolution_time_hours": 12.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T043",
+      "created_at": "2024-06-10T13:00:00.000",
+      "category": "物流查询",
+      "topic": "物流停滞或异常",
+      "description": "显示正在派送 从早上8点到现在5点了还没到",
+      "priority": "中",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T002",
+      "created_at": "2024-06-01T10:30:00.000",
+      "category": "物流查询",
+      "topic": "物流停滞或异常",
+      "description": "快递三天了没有任何物流更新",
+      "priority": "中",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T040",
+      "created_at": "2024-06-10T08:30:00.000",
+      "category": "支付问题",
+      "topic": "其他",
+      "description": "优惠券用了但付款时没减 怎么回事",
+      "priority": "中",
+      "resolution_time_hours": 3.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T018",
+      "created_at": "2024-06-05T13:15:00.000",
+      "category": "账号问题",
+      "topic": "其他",
+      "description": "手机号换了 怎么改绑定的手机号",
+      "priority": "中",
+      "resolution_time_hours": 2.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T014",
+      "created_at": "2024-06-04T14:00:00.000",
+      "category": "退款退货",
+      "topic": "其他",
+      "description": "退款退到哪个账户了怎么查",
+      "priority": "中",
+      "resolution_time_hours": 2.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T048",
+      "created_at": "2024-06-11T12:00:00.000",
+      "category": "支付问题",
+      "topic": "支付页面或结算失败",
+      "description": "结算页面打不开 刷新了好几次",
+      "priority": "中",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 1
+    },
+    {
+      "ticket_id": "T021",
+      "created_at": "2024-06-06T09:50:00.000",
+      "category": "退款退货",
+      "topic": "退货运费报销",
+      "description": "退货运费太贵了 能不能便宜点",
+      "priority": "低",
+      "resolution_time_hours": 4.0,
+      "satisfaction": 3,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    },
+    {
+      "ticket_id": "T038",
+      "created_at": "2024-06-09T14:00:00.000",
+      "category": "商品咨询",
+      "topic": "其他",
+      "description": "这个T恤洗了会缩水吗",
+      "priority": "低",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    },
+    {
+      "ticket_id": "T023",
+      "created_at": "2024-06-06T14:15:00.000",
+      "category": "商品咨询",
+      "topic": "其他",
+      "description": "这个和那个套装有什么区别",
+      "priority": "低",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    },
+    {
+      "ticket_id": "T015",
+      "created_at": "2024-06-04T16:45:00.000",
+      "category": "商品咨询",
+      "topic": "其他",
+      "description": "这个充电器能不能给iPad用",
+      "priority": "低",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    },
+    {
+      "ticket_id": "T003",
+      "created_at": "2024-06-01T14:20:00.000",
+      "category": "商品咨询",
+      "topic": "其他",
+      "description": "想问下这款面霜适不适合敏感肌",
+      "priority": "低",
+      "resolution_time_hours": 1.0,
+      "satisfaction": 4,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    },
+    {
+      "ticket_id": "T009",
+      "created_at": "2024-06-03T13:45:00.000",
+      "category": "商品咨询",
+      "topic": "其他",
+      "description": "这个包能不能装15寸的笔记本",
+      "priority": "低",
+      "resolution_time_hours": 0.5,
+      "satisfaction": 5,
+      "channel": "在线",
+      "is_resolved": true,
+      "risk_score": 0
+    }
+  ]
+}
